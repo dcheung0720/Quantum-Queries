@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDatabase,  ref, set, onValue, remove  } from "firebase/database";
+import { useState, useEffect } from "react";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,7 +18,31 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-export const useData = () =>{
+// read data
+export const useData = (path) => {
+    const [data, setData] = useState();
+    const [error, setError] = useState(null);
+  
+    useEffect(() => (
+        onValue(ref(database, path), (snapshot) =>{
+            setData(snapshot.val());
+        }
+      , (error) => {
+        setError(error);
+      })
+    ), [ path ]);
+  
+    return [ data, error ];
+  };
 
+// Set Data
+export const setData = (path, value) =>{
+    set(ref(database, path), value)
+} 
+
+//removeData
+export const removeData = (path) =>{
+    remove(ref(database, path));
 }
