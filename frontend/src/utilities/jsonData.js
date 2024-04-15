@@ -8,12 +8,17 @@ const useJsonData = () =>{
     useEffect(()=>{
         const getJson = async() =>{
             try{
-                const response = await fetch("/2017-2023.json");
+                const response = await fetch("/2017-2023.json", {
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                    },
+                });
                 if(!response.ok){
                     throw new Error("Network error");
                 }
                 const data = await response.json();
                 setJson(data);
+                console.log(data)
             } catch (err){
                 setError(err.message);
                 console.log(err);
