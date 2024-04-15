@@ -9,9 +9,7 @@ const useJsonData = () =>{
         const getJson = async() =>{
             try{
                 const response = await fetch("/2017-2023.json", {
-                    headers: {
-                        'Cache-Control': 'no-cache',
-                    },
+
                 });
                 if(!response.ok){
                     throw new Error("Network error");
