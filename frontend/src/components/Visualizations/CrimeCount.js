@@ -1,18 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { useData } from '../../utilities/firebase';
 import * as d3 from 'd3';
-import useJsonData from '../../utilities/jsonData';
 
-const CrimeCount = () =>{
+const CrimeCount = ({data}) =>{
     const svgRef = useRef();
-    const [data, error] = useJsonData();
 
     useEffect(()=>{
         const w = 700;
         const h = 400;
 
         const svg = d3.select(svgRef.current);
-        const margin = {top: 20, bottom: 20, left: 20, right: 30};
+        const margin = {top: 25, bottom: 20, left: 20, right: 30};
         const width = w - margin.left - margin.right;
         const height = h - margin.top - margin.bottom;
 
@@ -83,6 +80,7 @@ const CrimeCount = () =>{
                 .attr("x", width/1.8)
                 .attr("y", margin.top)
                 .style("text-anchor", "middle")
+                .style("font-size", "20px")
                 .text("Crimes Between 2017 - 2023");
         };
 
