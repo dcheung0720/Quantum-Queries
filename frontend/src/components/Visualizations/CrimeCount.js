@@ -88,7 +88,7 @@ const CrimeCount = ({data}) =>{
 
     }, [data]);
     return(
-        <svg ref = {svgRef} style={{backgroundColor: "white", marginTop: "20px"}}></svg>
+        <svg ref = {svgRef} style={{backgroundColor: "white", marginTop: "20px", borderRadius: "10px", border: "4px solid black"}}></svg>
     )
 };
 
