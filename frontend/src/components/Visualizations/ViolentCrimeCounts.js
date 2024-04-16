@@ -15,7 +15,7 @@ const ViolentCrimeCounts = ({data}) =>{
         const width = w - margin.left - margin.right;   
 
         const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
-        const violentCrimes = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE', 'DOMESTIC VIOLENCE'];
+        const violentCrimes = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE'];
         const xScale = d3.scaleBand()
                         .domain(years)
                         .range([0, width]).padding(0.2);
@@ -30,6 +30,22 @@ const ViolentCrimeCounts = ({data}) =>{
         if(data != null){
             svg.selectAll('*').remove();
 
+            // tooltip
+            // Add this function to show the tooltip
+            const handleMouseOver = (event, d) => {
+                const tooltip = d3.select("#tooltip");
+                tooltip.style("opacity", 1)
+                .style("left", event.pageX + "px")
+                .style("top", event.pageY + "px")
+                .html(`Year: ${d.data.label}<br> #cases: ${d[1] - d[0]}`);
+            };
+            
+            // Add this function to hide the tooltip
+            const handleMouseOut = () => {
+                const tooltip = d3.select("#tooltip");
+                tooltip.style("opacity", 0);
+            };
+
             const columns = data["columns"];
             const yearCol = columns.indexOf("Year");
             const crimeTypeCol = columns.indexOf("Primary Type");
@@ -43,8 +59,7 @@ const ViolentCrimeCounts = ({data}) =>{
                     )}
                 )
             });
-
-            console.log(crimeData)
+            
 
             //create stack data for easier processing.
             const stackedData = d3.stack()
@@ -59,8 +74,6 @@ const ViolentCrimeCounts = ({data}) =>{
               obj.label = d.label;
               return obj;
             }));
-
-            console.log(stackedData);
 
             // x axis
             svg.append("g")
@@ -86,14 +99,44 @@ const ViolentCrimeCounts = ({data}) =>{
                         .attr("x", (d, i) => xScale(d.data.label) + margin.left)
                         .attr("y", (d, i) => yScale(d[1]))
                         .attr("width", xScale.bandwidth())
-                        .attr("height", (d, i) => yScale(d[0]) - yScale(d[1]));
+                        .attr("height", (d, i) => yScale(d[0]) - yScale(d[1]))
+                        .on("mouseover", handleMouseOver)  // Show tooltip on mouseover
+                        .on("mouseout", handleMouseOut)    // Hide tooltip on mouseout
+                        .transition()
+                        .duration(1000);
+
+            // legend
+            const legend = svg.append('g')
+                           .attr("class", 'legend')
+                           .attr('transform', `translate(${width - margin.left - 100}, 5)`);
+            const legendRectSize = 16;
+            const legendSpacing = 3;
+            
+            const legendItems = legend.selectAll('g')
+                               .data(violentCrimes)
+                               .enter().append('g')
+                               .attr('transform', (d, i) => `translate(0, ${i * (legendRectSize + legendSpacing)})`);
+
+            legendItems.append("rect")
+            .attr("width", legendRectSize)
+            .attr("height", legendRectSize)
+            .attr("fill", d => colorScale(d));
+            
+            legendItems.append("text")
+            .attr("x", legendRectSize + legendSpacing)
+            .attr("y", legendRectSize - legendSpacing)
+                                .text(d => d);
+  
         };
 
 
     }, [data])
 
     return(
-        <svg ref = {svgRef} style={{backgroundColor: "white", marginTop: "20px", borderRadius: "10px", border: "4px solid black"}}></svg>
+        <>
+            <svg ref = {svgRef} style={{backgroundColor: "white", marginTop: "20px", borderRadius: "10px", border: "4px solid black"}}></svg>
+            <div id="tooltip" style={{ position: "absolute", opacity: 0, backgroundColor: "white", padding: "10px", borderRadius: "5px", border: "1px solid black" }}></div>
+        </>
     )
 
 };
