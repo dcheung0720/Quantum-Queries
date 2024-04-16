@@ -2,8 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import * as d3 from 'd3';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 const ViolentCrimeCounts = ({data}) =>{
+    //ward selection 
+    const [ward, setWard] = useState('All');
+
     const svgRef = useRef();
     const violentCrimes = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE']
     // checkbox states
@@ -50,13 +58,17 @@ const ViolentCrimeCounts = ({data}) =>{
             const columns = data["columns"];
             const yearCol = columns.indexOf("Year");
             const crimeTypeCol = columns.indexOf("Primary Type");
+            const wardCol = columns.indexOf("Ward");
             
-            //configure data into labels and data points for each crime type.
+            //configure data into labels and data points for each crime type and ward
             const crimeData = years.map(year => {
                 return({
                     label: year,
                     crimeCounts: violentCrimesFiltered.map(crime => 
-                            data["data"].filter(d => d[yearCol] === year && d[crimeTypeCol] === crime).length
+                            {
+                                return ward === "All"? data["data"].filter(d => d[yearCol] === year && d[crimeTypeCol] === crime).length : 
+                                                       data["data"].filter(d => d[yearCol] === year && d[crimeTypeCol] === crime && d[wardCol] === ward).length
+                            }
                     )}
                 )
             });
@@ -153,7 +165,7 @@ const ViolentCrimeCounts = ({data}) =>{
   
         };
 
-    }, [data, checkedItems])
+    }, [data, checkedItems, ward])
 
     const handleChange = (e) =>{
         const {name, checked} = e.target;
@@ -167,6 +179,7 @@ const ViolentCrimeCounts = ({data}) =>{
 
     return(
         <div style = {{display: "flex", flexDirection: "column"}}>
+            <WardSelection ward = {ward} setWard={setWard}></WardSelection>
             <div style = {{width: 700, height: 50}}>
                 {violentCrimes.map(crime => 
                     <FormControlLabel
@@ -185,6 +198,30 @@ const ViolentCrimeCounts = ({data}) =>{
         </div>
     )
 
+};
+
+const WardSelection = ({ward, setWard}) =>{
+
+    const handleChange = (event) => {
+        setWard(event.target.value);
+    };
+
+    const oneToFifty = Array.from(Array(50).keys());
+
+    return(
+        <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Ward</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={ward}
+          label="Ward"
+          onChange={handleChange}
+        >
+          {oneToFifty.map(v => <MenuItem value={v}>{v}</MenuItem>)}
+        </Select>
+      </FormControl>
+    )
 };
 
 export default ViolentCrimeCounts;
