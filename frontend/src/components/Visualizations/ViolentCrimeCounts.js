@@ -1,8 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as d3 from 'd3';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const ViolentCrimeCounts = ({data}) =>{
     const svgRef = useRef();
+    const violentCrimes = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE']
+    // checkbox states
+    const [checkedItems, setCheckedItems] = useState(() => {
+        return violentCrimes.reduce((acc, crimeType) => {
+          acc[crimeType] = true;
+          return acc;
+        }, {});
+      });
 
     useEffect(() =>{
         const svg = d3.select(svgRef.current);
@@ -15,7 +25,7 @@ const ViolentCrimeCounts = ({data}) =>{
         const width = w - margin.left - margin.right;   
 
         const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
-        const violentCrimes = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE'];
+        const violentCrimesFiltered = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE'].filter(x => checkedItems[x] == true);
         const xScale = d3.scaleBand()
                         .domain(years)
                         .range([0, width]).padding(0.2);
@@ -23,7 +33,7 @@ const ViolentCrimeCounts = ({data}) =>{
                         .domain([0, 100000])
                         .range([height, margin.top]);
         const colorScale = d3.scaleOrdinal()
-                           .domain(violentCrimes)
+                           .domain(violentCrimesFiltered)
                            .range(d3.schemeCategory10);
 
 
@@ -54,7 +64,7 @@ const ViolentCrimeCounts = ({data}) =>{
             const crimeData = years.map(year => {
                 return({
                     label: year,
-                    crimeCounts: violentCrimes.map(crime => 
+                    crimeCounts: violentCrimesFiltered.map(crime => 
                             data["data"].filter(d => d[yearCol] === year && d[crimeTypeCol] === crime).length
                     )}
                 )
@@ -63,12 +73,12 @@ const ViolentCrimeCounts = ({data}) =>{
 
             //create stack data for easier processing.
             const stackedData = d3.stack()
-            .keys(violentCrimes)
+            .keys(violentCrimesFiltered)
             .offset(d3.stackOffsetNone)
             .order(d3.stackOrderNone)
             (crimeData.map(d => {
               const obj = {};
-              violentCrimes.forEach((key, i) => {
+              violentCrimesFiltered.forEach((key, i) => {
                 obj[key] = d.crimeCounts[i];
               });
               obj.label = d.label;
@@ -79,6 +89,13 @@ const ViolentCrimeCounts = ({data}) =>{
             svg.append("g")
             .attr('transform', `translate(${margin.left}, ${height})`)
             .call(d3.axisBottom(xScale));
+
+            // Title
+            svg.append("text")
+                .attr("x", width/3)
+                .attr("y", margin.top)
+                .text("Violent Crimes 2017 - 2023")
+                .style("font-size", "20px")
 
             // y axis   
             svg.append('g')
@@ -97,13 +114,13 @@ const ViolentCrimeCounts = ({data}) =>{
                     .data(d => d)
                     .enter().append("rect")
                         .attr("x", (d, i) => xScale(d.data.label) + margin.left)
-                        .attr("y", (d, i) => yScale(d[1]))
                         .attr("width", xScale.bandwidth())
-                        .attr("height", (d, i) => yScale(d[0]) - yScale(d[1]))
                         .on("mouseover", handleMouseOver)  // Show tooltip on mouseover
                         .on("mouseout", handleMouseOut)    // Hide tooltip on mouseout
                         .transition()
-                        .duration(1000);
+                        .duration(1000)
+                        .attr("y", (d, i) => yScale(d[1]))
+                        .attr("height", (d, i) => yScale(d[0]) - yScale(d[1]));
 
             // legend
             const legend = svg.append('g')
@@ -113,7 +130,7 @@ const ViolentCrimeCounts = ({data}) =>{
             const legendSpacing = 3;
             
             const legendItems = legend.selectAll('g')
-                               .data(violentCrimes)
+                               .data(violentCrimesFiltered)
                                .enter().append('g')
                                .attr('transform', (d, i) => `translate(0, ${i * (legendRectSize + legendSpacing)})`);
 
@@ -129,14 +146,36 @@ const ViolentCrimeCounts = ({data}) =>{
   
         };
 
+    }, [data, checkedItems])
 
-    }, [data])
+    const handleChange = (e) =>{
+        const {name, checked} = e.target;
+        setCheckedItems(
+            {
+                ...checkedItems,
+                [name]: checked
+            }
+        )
+    };
 
     return(
-        <>
-            <svg ref = {svgRef} style={{backgroundColor: "white", marginTop: "20px", borderRadius: "10px", border: "4px solid black"}}></svg>
+        <div style = {{display: "flex", flexDirection: "column"}}>
+            <div style = {{width: 700, height: 50}}>
+                {violentCrimes.map(crime => 
+                    <FormControlLabel
+                        label= {crime}
+                        control = {<Checkbox
+                                    checked={checkedItems[crime]}
+                                    name = {crime}
+                                    onChange={handleChange}
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                    />}
+                    />
+                )}
+            </div>
+            <svg  className='graphs' ref = {svgRef}></svg>
             <div id="tooltip" style={{ position: "absolute", opacity: 0, backgroundColor: "white", padding: "10px", borderRadius: "5px", border: "1px solid black" }}></div>
-        </>
+        </div>
     )
 
 };
