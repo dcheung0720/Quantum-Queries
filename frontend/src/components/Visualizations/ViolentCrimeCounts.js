@@ -26,15 +26,6 @@ const ViolentCrimeCounts = ({data}) =>{
 
         const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
         const violentCrimesFiltered = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE'].filter(x => checkedItems[x] == true);
-        const xScale = d3.scaleBand()
-                        .domain(years)
-                        .range([0, width]).padding(0.2);
-        const yScale = d3.scaleLinear()
-                        .domain([0, 100000])
-                        .range([height, margin.top]);
-        const colorScale = d3.scaleOrdinal()
-                           .domain(violentCrimesFiltered)
-                           .range(d3.schemeCategory10);
 
 
         if(data != null){
@@ -69,6 +60,22 @@ const ViolentCrimeCounts = ({data}) =>{
                     )}
                 )
             });
+
+            console.log(crimeData)
+            const xScale = d3.scaleBand()
+            .domain(years)
+            .range([0, width]).padding(0.2);
+
+            const yCrimes = crimeData.map(crime => crime.crimeCounts.reduce((cum, cur) => cum + cur), 0);
+            
+            const yMax = Math.max(...yCrimes) * 1.2;
+
+            const yScale = d3.scaleLinear()
+                        .domain([0, yMax])
+                        .range([height, margin.top]);
+            const colorScale = d3.scaleOrdinal()
+                        .domain(violentCrimesFiltered)
+                        .range(d3.schemeCategory10);
             
 
             //create stack data for easier processing.
