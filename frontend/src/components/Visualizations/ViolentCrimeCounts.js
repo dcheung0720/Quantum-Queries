@@ -10,7 +10,7 @@ const ViolentCrimeCounts = ({data}) =>{
         const w = 700;
         const h = 400;
 
-        const margin = {top: 30, bottom: 30, left: 30, right: 30};
+        const margin = {top: 30, bottom: 0, left: 50, right: 30};
         const height = h - margin.top - margin.bottom;
         const width = w - margin.left - margin.right;   
 
@@ -21,7 +21,7 @@ const ViolentCrimeCounts = ({data}) =>{
                         .range([0, width]).padding(0.2);
         const yScale = d3.scaleLinear()
                         .domain([0, 100000])
-                        .range([height, 0 ]);
+                        .range([height, margin.top]);
         const colorScale = d3.scaleOrdinal()
                            .domain(violentCrimes)
                            .range(d3.schemeCategory10);
@@ -33,22 +33,67 @@ const ViolentCrimeCounts = ({data}) =>{
             const columns = data["columns"];
             const yearCol = columns.indexOf("Year");
             const crimeTypeCol = columns.indexOf("Primary Type");
-    
+            
+            //configure data into labels and data points for each crime type.
             const crimeData = years.map(year => {
                 return({
                     label: year,
                     crimeCounts: violentCrimes.map(crime => 
-                            data["data"].filter(d => d[yearCol] == year && d[crimeTypeCol] == crime).length
+                            data["data"].filter(d => d[yearCol] === year && d[crimeTypeCol] === crime).length
                     )}
                 )
             });
+
+            console.log(crimeData)
+
+            //create stack data for easier processing.
+            const stackedData = d3.stack()
+            .keys(violentCrimes)
+            .offset(d3.stackOffsetNone)
+            .order(d3.stackOrderNone)
+            (crimeData.map(d => {
+              const obj = {};
+              violentCrimes.forEach((key, i) => {
+                obj[key] = d.crimeCounts[i];
+              });
+              obj.label = d.label;
+              return obj;
+            }));
+
+            console.log(stackedData);
+
+            // x axis
+            svg.append("g")
+            .attr('transform', `translate(${margin.left}, ${height})`)
+            .call(d3.axisBottom(xScale));
+
+            // y axis   
+            svg.append('g')
+            .attr('transform', `translate(${margin.left}, 0)`)
+            .call(d3.axisLeft(yScale));
+
+            // bars
+            svg.attr("width", w)
+                .attr("height", h)
+                .selectAll("Bar")
+                .data(stackedData)
+                .enter().append("g")
+                    .attr("class", "bar")
+                    .attr("fill", d => colorScale(d.key))
+                    .selectAll("rect")
+                    .data(d => d)
+                    .enter().append("rect")
+                        .attr("x", (d, i) => xScale(d.data.label) + margin.left)
+                        .attr("y", (d, i) => yScale(d[1]))
+                        .attr("width", xScale.bandwidth())
+                        .attr("height", (d, i) => yScale(d[0]) - yScale(d[1]));
         };
 
 
     }, [data])
 
     return(
-        <svg ref = {svgRef}></svg>
+        <svg ref = {svgRef} style={{backgroundColor: "white", marginTop: "20px", borderRadius: "10px", border: "4px solid black"}}></svg>
     )
 
 };
