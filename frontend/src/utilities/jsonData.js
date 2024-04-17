@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 
-const useJsonData = () =>{
+export const useJsonData = () =>{
     const [json, setJson] = useState();
     const [error, setError] = useState();
 
@@ -16,7 +16,6 @@ const useJsonData = () =>{
                 }
                 const data = await response.json();
                 setJson(data);
-                console.log(data)
             } catch (err){
                 setError(err.message);
                 console.log(err);
@@ -27,6 +26,30 @@ const useJsonData = () =>{
 
     return [json, error];
 
+};
+
+export const useGeoJsonData = () =>{
+    const [geoJson, setGeoJson] = useState();
+    const [error, setError] = useState();
+    
+    useEffect(() =>{
+        const getGeoJson = async() =>{
+            try{
+                const response = await fetch("/wards.geojson");
+                if(!response.ok){
+                    throw new Error("Network Error")
+                }
+
+                const data = await response.json();
+                setGeoJson(data);
+            } catch (err){  
+                setError(err);
+            }
+        };
+        getGeoJson();
+    }, []);
+
+    return [geoJson, error];
 };
 
 export default useJsonData;

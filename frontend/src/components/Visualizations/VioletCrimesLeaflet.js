@@ -1,6 +1,11 @@
-import { MapContainer, TileLayer, useMap, Popup, Marker } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, Popup, Marker } from 'react-leaflet';
+import { useGeoJsonData } from '../../utilities/jsonData';
 
 const ViolentCrimesLeaftlet = ({data}) =>{
+
+    const [geoJsonData, error] = useGeoJsonData();
+    console.log(geoJsonData)
+
     return(
     <MapContainer center={[41.85, -87.9]} zoom={10} style = {{height: "100vh"}}>
         <TileLayer
