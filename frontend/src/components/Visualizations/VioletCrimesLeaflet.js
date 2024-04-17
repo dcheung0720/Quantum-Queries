@@ -38,7 +38,7 @@ const Legend = () => {
     return null;
 };
 
-const ViolentCrimesLeaftlet = ({data, year, setYear}) =>{
+const ViolentCrimesLeaftlet = ({year, setYear}) =>{
     const colorPicker = (number) =>{
         if(number <= 500){
             return {color : "#FFFF00"}
@@ -67,7 +67,7 @@ const ViolentCrimesLeaftlet = ({data, year, setYear}) =>{
     useEffect(() => {
         const intervalId = setInterval(() => {
             setYear(prevYear => (prevYear + 1) % 7);
-        }, 5000);
+        }, 500);
 
         // Cleanup the interval when the component unmounts
         return () => {
@@ -128,10 +128,10 @@ const ViolentCrimesLeaftlet = ({data, year, setYear}) =>{
         50: "Pullman/Roseland/South Deering"
     }
 
-    if(data && geoJsonData!=null && wardData){
+    if(geoJsonData!=null && wardData){
 
         return(
-                <MapContainer center={[41.85, -87.9]} zoom={10} style={{ height: "100vh" }}>
+                <MapContainer center={[41.85, -87.9]} zoom={10} style={{ height: "50vh" }}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

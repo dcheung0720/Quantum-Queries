@@ -127,7 +127,6 @@ const ViolentCrimeCounts = ({data}) =>{
                 )
             });
 
-            console.log(crimeData)
             const xScale = d3.scaleBand()
             .domain(years)
             .range([0, width]).padding(0.2);
