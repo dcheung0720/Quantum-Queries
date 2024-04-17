@@ -29,8 +29,8 @@ export const useJsonData = () =>{
 };
 
 export const useGeoJsonData = () =>{
-    const [geoJson, setGeoJson] = useState();
-    const [error, setError] = useState();
+    const [geoJson, setGeoJson] = useState(null);
+    const [error, setError] = useState(null);
     
     useEffect(() =>{
         const getGeoJson = async() =>{
