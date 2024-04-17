@@ -8,6 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
+
 const ViolentCrimeCounts = ({data}) =>{
     //ward selection 
     const [ward, setWard] = useState('All');
@@ -33,7 +34,7 @@ const ViolentCrimeCounts = ({data}) =>{
         const width = w - margin.left - margin.right;   
 
         const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
-        const violentCrimesFiltered = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE'].filter(x => checkedItems[x] == true);
+        const violentCrimesFiltered = ['BATTERY', 'ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE'].filter(x => checkedItems[x] == true);
 
 
         if(data != null){
@@ -178,20 +179,23 @@ const ViolentCrimeCounts = ({data}) =>{
     };
 
     return(
-        <div style = {{display: "flex", flexDirection: "column"}}>
-            <WardSelection ward = {ward} setWard={setWard}></WardSelection>
-            <div style = {{width: 700, height: 50}}>
-                {violentCrimes.map(crime => 
-                    <FormControlLabel
-                        label= {crime}
-                        control = {<Checkbox
-                                    checked={checkedItems[crime]}
-                                    name = {crime}
-                                    onChange={handleChange}
-                                    inputProps={{ 'aria-label': 'controlled' }}
-                                    />}
-                    />
-                )}
+        <div style = {{display: "flex", justifyContent:"center", alignItems: "center"}}>
+            <div className="controls" style = {{paddingLeft: "20px", paddingRight: "20px", width: "150px"}}>
+                <h3>Controls</h3>
+                <WardSelection ward = {ward} setWard={setWard}></WardSelection>
+                <div className="checkboxes" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                    {violentCrimes.map(crime => 
+                        <FormControlLabel
+                            label= {crime}
+                            control = {<Checkbox
+                                        checked={checkedItems[crime]}
+                                        name = {crime}
+                                        onChange={handleChange}
+                                        inputProps={{ 'aria-label': 'controlled' }}
+                                        />}
+                        />
+                    )}
+                </div>
             </div>
             <svg  className='graphs' ref = {svgRef}></svg>
             <div id="tooltip" style={{ position: "absolute", opacity: 0, backgroundColor: "white", padding: "10px", borderRadius: "5px", border: "1px solid black" }}></div>
@@ -206,20 +210,21 @@ const WardSelection = ({ward, setWard}) =>{
         setWard(event.target.value);
     };
 
-    const oneToFifty = Array.from(Array(50).keys());
+    let oneToFifty = Array.from(Array(50).keys());
+    oneToFifty.unshift("All");
 
     return(
-        <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Ward</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={ward}
-          label="Ward"
-          onChange={handleChange}
-        >
-          {oneToFifty.map(v => <MenuItem value={v}>{v}</MenuItem>)}
-        </Select>
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+            <InputLabel id="demo-simple-select-label">Ward</InputLabel>
+            <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={ward}
+                label="Ward"
+                onChange={handleChange}
+            >
+                {oneToFifty.map(v => <MenuItem value={v}>{v + 1}</MenuItem>)}
+            </Select>
       </FormControl>
     )
 };
