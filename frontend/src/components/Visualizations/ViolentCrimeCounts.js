@@ -8,6 +8,59 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
+const chicagoWardsNeighborhoods = {
+    1: "Bucktown/Wicker Park/Ukrainian Village",
+    2: "Lincoln Park/Old Town/Gold Coast",
+    3: "Bronzeville/Near South Side/Douglas",
+    4: "Hyde Park/Kenwood/Bronzeville",
+    5: "South Shore/Woodlawn/Grand Crossing",
+    6: "Chatham/Greater Grand Crossing/Avalon Park",
+    7: "South Chicago/Calumet Heights/South Deering",
+    8: "South Shore/Calumet Heights/Avalon Park",
+    9: "Roseland/Pullman/Riverdale",
+    10: "Hegewisch/East Side/South Chicago",
+    11: "Beverly/Mount Greenwood/Morgan Park",
+    12: "Bridgeport/Armour Square/Chinatown",
+    13: "Back of the Yards/Heart of Chicago/McKinley Park",
+    14: "Pilsen/University Village/Little Italy",
+    15: "North Center/Roscoe Village/Ravenswood",
+    16: "Irving Park/Portage Park/Old Irving Park",
+    17: "Albany Park/Mayfair/North Park",
+    18: "Montclare/Belmont Heights/Dunning",
+    19: "Belmont Cragin/Hermosa/Kelvyn Park",
+    20: "Logan Square/Humboldt Park/Hermosa",
+    21: "Humboldt Park/West Town/Ukrainian Village",
+    22: "West Town/Wicker Park/Bucktown",
+    23: "Clearing/Garfield Ridge/Archer Heights",
+    24: "West Lawn/Chicago Lawn/Marquette Park",
+    25: "West Lawn/Ashburn/Chicago Lawn",
+    26: "Little Village/South Lawndale/Pilsen",
+    27: "Brighton Park/McKinley Park/Gage Park",
+    28: "Loop/Near South Side/West Loop",
+    29: "Near West Side/West Town/United Center",
+    30: "South Lawndale/Little Village/Marshall Square",
+    31: "Lower West Side/Near West Side/University Village",
+    32: "Beverly/Washington Heights/Roseland",
+    33: "Washington Heights/West Pullman/Roseland",
+    34: "Auburn Gresham/Chatham/Greater Grand Crossing",
+    35: "Calumet Heights/Avalon Park/Burnside",
+    36: "Oakland/Douglas/Grand Boulevard",
+    37: "Oakland/Grand Boulevard/Kenwood",
+    38: "Grand Boulevard/Bronzeville/Douglas",
+    39: "Kenwood/Hyde Park/Oakland",
+    40: "South Shore/South Chicago/Avalon Park",
+    41: "Hyde Park/Woodlawn/Kenwood",
+    42: "Woodlawn/South Shore/Grand Crossing",
+    43: "South Chicago/East Side/Hegewisch",
+    44: "Auburn Gresham/Englewood/Gresham",
+    45: "Englewood/New City/Back of the Yards",
+    46: "New City/West Englewood/Englewood",
+    47: "Chatham/Burnside/Roseland",
+    48: "Roseland/East Side/Calumet Heights",
+    49: "Calumet Heights/Pullman/Roseland",
+    50: "Pullman/Roseland/South Deering"
+}
+
 
 const ViolentCrimeCounts = ({data}) =>{
     //ward selection 
@@ -222,8 +275,9 @@ const WardSelection = ({ward, setWard}) =>{
                 value={ward}
                 label="Ward"
                 onChange={handleChange}
+                style={{width: "150px"}}
             >
-                {oneToFifty.map(v => <MenuItem value={v}>{v + 1}</MenuItem>)}
+                {oneToFifty.map(v => <MenuItem style={{textOverflow: 'ellipsis'}} value={v}>{v + 1} {chicagoWardsNeighborhoods[v + 1]}</MenuItem>)}
             </Select>
       </FormControl>
     )
