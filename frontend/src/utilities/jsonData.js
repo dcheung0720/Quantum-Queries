@@ -52,4 +52,33 @@ export const useGeoJsonData = () =>{
     return [geoJson, error];
 };
 
+export const useWardData = () =>{
+    const [wardData, setWardData] = useState();
+    const [error, setError] = useState();
+
+    useEffect(()=>{
+        const getWardData = async() =>{
+            try{
+                const response = await fetch("/wardData.json");
+
+                if(!response.ok){
+                    throw new Error("Network error")
+                }
+
+                const data = await response.json();
+
+                setWardData(data);
+
+            } catch(err){
+                setError(err);
+            }
+        };
+        getWardData();
+
+    }, [])
+
+    return [wardData, error]
+
+};
+
 export default useJsonData;

@@ -17,6 +17,8 @@ import Typography from '@mui/material/Typography';
 
 function App() {
   const [data, error] = useJsonData();
+  const [year, setYear] = React.useState(0);
+
   const componentList = [{
                           graph: <CrimeCount data = {data}/>,
                           title: "How are the crime rates in the past few years?",
@@ -28,8 +30,8 @@ function App() {
                           description: "DESCRIPTION"
                         },
                         {
-                          graph: <ViolentCrimesLeaftlet data = {data}/>,
-                          title: "What about the violent crimes?",
+                          graph: <ViolentCrimesLeaftlet data = {data} year = {year} setYear={setYear}/>,
+                          title: `Violent Crimes Across Different Wards and Neighborhood in ${2017 + year}`,
                           description: "DESCRIPTION"
                         }
                       ];
