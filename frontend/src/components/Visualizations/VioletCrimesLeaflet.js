@@ -1,15 +1,16 @@
-import { MapContainer, TileLayer, useMap, Popup, Marker, Polygon } from 'react-leaflet';
-import { useGeoJsonData } from '../../utilities/jsonData';
+import { MapContainer, TileLayer, useMap, Popup, Marker, Polygon, Tooltip } from 'react-leaflet';
+import useJsonData, { useGeoJsonData } from '../../utilities/jsonData';
 
 const ViolentCrimesLeaftlet = ({data}) =>{
 
     const [geoJsonData, error] = useGeoJsonData();
+    const [jsonData, error2] = useJsonData();
 
     const purpleOptions = { color: 'purple' };
 
 
     return(
-        geoJsonData!=null &&
+        geoJsonData!=null && jsonData &&
             <MapContainer center={[41.85, -87.9]} zoom={10} style = {{height: "100vh"}}>
                 <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -20,9 +21,12 @@ const ViolentCrimesLeaftlet = ({data}) =>{
                         const multiPolygon = [feature.geometry.coordinates[0][0].map(
                             coordinate => [coordinate[1], coordinate[0]]
                         )];
-                        console.log(multiPolygon);
+
+
                         return(
-                            <Polygon pathOptions={purpleOptions} positions={multiPolygon} />
+                            <Polygon pathOptions={purpleOptions} positions={multiPolygon}>
+                                <Tooltip sticky>sticky Tooltip for Polygon</Tooltip>
+                            </Polygon>
                         )
                     })
                 }
