@@ -37,12 +37,14 @@ function App() {
                       ];
   return (
     <div className="App">
-        <h1>Are There More Violent Crimes in Chicago?</h1>
+        <Card style={{marginLeft: "20px", marginRight: "20px", height: "100px"}}>
+            <h1>Is Chicago Becoming More Violent?</h1>
+        </Card>
         {componentList.map(component => 
-        <Card style={{marginTop: "30px", marginLeft: "20px", marginRight: "20px"}}>
+        <Card style={{marginTop: "20px", marginLeft: "20px", marginRight: "20px"}}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {component.title}
+              <em>{component.title}</em>
             </Typography>
               {component.graph}
             <Typography variant="body2" color="text.secondary">
