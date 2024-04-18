@@ -22,13 +22,13 @@ function App() {
 
   const vistList = [{
                           graph: <CrimeCount data = {data}/>,
-                          title: "How are the crime rates in the past few years?",
+                          title: "How are the Crime Rates in the Past Few Years?",
                           icon: <TrendingUpIcon style={{ color: 'red' }}/>,
                           descriptions: ["From 2017 to 2023, crime rates in Chicago remained relatively stable, experiencing a noticeable decrease during the Covid-19 pandemic. However, since the peak of the pandemic, crime rates have been on the rise, approaching pre-pandemic levels. This upward trend suggests that Chicago may be experiencing an increase in crime, potentially surpassing the levels seen before Covid-19, raising concerns about public safety in the city."]
                         },
                         {
                           graph: <ViolentCrimeCounts data = {data}/>,
-                          title: "What about the violent crimes?",
+                          title: "What about the Violent Crimes?",
                           icon: <TrendingUpIcon/>,
                           descriptions: [
                             "The overall trend in crime rates in Chicago, encompassing theft, fraud, and hate crimes, mirrors the pattern observed in violent crimes. There was a decline during the Covid-19 pandemic, followed by a steady increase as the pandemic subsided. This rising trend in violent crimes is alarming and contributes to feelings of insecurity among residents of Chicago.",    
@@ -46,9 +46,21 @@ function App() {
                         },
                         {
                           graphs: ["/Holt/1.png", "/Holt/2.png", "/Holt/3.png","/Holt/4.png","/Holt/5.png"],
-                          title: `How Are The Homicide Rates by Wards?`,
+                          title: `How are The Homicide Rates by Wards?`,
                           icon: <TrendingUpIcon/>,
                           descriptions: ["This map of Chicago is divided by ward. Chicago has fifty different wards each with their own elected alderman. Each map is colored on the basis of homicide count. The coloration ranges from a dark blue to a dark red. The darkest blue represents the safest wards by homicide count. While the darkest red represents the most dangerous or highest number of reported homicides in the given ward. These maps are broken out to show year over year data for 2017, 2018, 2021, 2022 and 2023.",]
+                        },
+                        {
+                          graphs: ["/Ewelina/HolidayCrime.png","/Ewelina/ChritmasCrime.png", "/Ewelina/EasterCrime.png","/Ewelina/NYDCrime.png","/Ewelina/NYECrime.png", "/Ewelina/ThanksgivingCrime.png"],
+                          title: `Can we Celebrate in Peace?`,
+                          icon: <TrendingUpIcon/>,
+                          descriptions: ["",]
+                        },
+                        {
+                          graphs: ["/Ewelina/arrestNoArrest.png","/Ewelina/arrestNoArrest2.png"],
+                          title: `Why are Crime Rates so High?`,
+                          icon: <TrendingUpIcon/>,
+                          descriptions: ["",]
                         }
                       ];
   
