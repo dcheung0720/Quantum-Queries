@@ -54,13 +54,19 @@ function App() {
                           graphs: ["/Ewelina/HolidayCrime.png","/Ewelina/ChritmasCrime.png", "/Ewelina/EasterCrime.png","/Ewelina/NYDCrime.png","/Ewelina/NYECrime.png", "/Ewelina/ThanksgivingCrime.png"],
                           title: `Can we Celebrate in Peace?`,
                           icon: <TrendingUpIcon/>,
-                          descriptions: ["",]
+                          descriptions: [" Crimes in Chicago on five major Holidays spikes on  New Year eve and Day  compering to Easter and Thanksgiving. Crimes in Chicago takes no holidays. Although Holidays are the seasons of giving and goodness those words are misunderstood by criminals in Chicago.",]
                         },
                         {
                           graphs: ["/Ewelina/arrestNoArrest.png","/Ewelina/arrestNoArrest2.png"],
                           title: `Why are Crime Rates so High?`,
                           icon: <TrendingUpIcon/>,
-                          descriptions: ["",]
+                          descriptions: ["Chicago has a very low clearance rate. Criminals are free to commit the crime again. They are aware that there are few consequences for their actions, they too will be emboldened. Year by year criminal activities are increasing and arrests are doping. ",]
+                        },
+                        {
+                          graphs: ["/Rachel/topCrimes.png","/Rachel/crimesPerSeason.png","/Rachel/springYearly.png", "/Rachel/summerYearly.png", "/Rachel/fallYearly.png]", "/Rachel/winterYearly.png", "/Rachel/topSpringCrimes.png", "/Rachel/topSummerCrimes.png", "/Rachel/topFallCrimes.png", "/Rachel/topWinterCrimes.png"],
+                          title: `What about Crimes per Season?`,
+                          icon: <TrendingUpIcon/>,
+                          descriptions: ["Crime in Chicago tends to spike around noon, this is most likely due to the fact that theft is the most frequently occurring crime which often happens during the daytime.",]
                         }
                       ];
   
@@ -68,18 +74,20 @@ function App() {
   return (
     <div className="App">
         <Card style={{marginLeft: "20px", marginRight: "20px", height: "100px", backgroundColor: "#B3DDF2"}}>
-            <h1><img className = "chicagoStars" src = {"/chicagoStar.png"}/><img className = "chicagoStars" src = {"/chicagoStar.png"}/>Is Chicago Becoming More Dangerous? <img className = "chicagoStars" src = {"/chicagoStar.png"}/><img className = "chicagoStars" src = {"/chicagoStar.png"}/></h1>
+            <h1 style={{fontSize: "35px"}}><img className = "chicagoStars" src = {"/chicagoStar.png"}/><img className = "chicagoStars" src = {"/chicagoStar.png"}/>Is Chicago Becoming More Dangerous? <img className = "chicagoStars" src = {"/chicagoStar.png"}/><img className = "chicagoStars" src = {"/chicagoStar.png"}/></h1>
         </Card>
         {vistList.map(component => 
           <Card style={{marginTop: "20px", marginLeft: "20px", marginRight: "20px", backgroundColor: "#B3DDF2"}}>
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography gutterBottom variant="h4" component="div">
                 <b><em>{component.title} {component.icon}</em></b>
               </Typography>
                 {component.graph? component.graph : <PhotoCards images = {component.graphs}/>}
               <hr></hr>
-              <Typography variant="h6" color="text.primary" style={{textAlign:"left"}}>
-                {component.descriptions.map(description => <p>{description}</p>)}
+              <Typography variant="h6" color="text.primary" style={{textAlign:"left", border: "3px solid red", paddingLeft: "10px",  paddingRight: "10px", borderRadius: "10px"}}>
+                <p style={{marginBottom: "3px", marginTop: "3px"}}><h3 style={{marginBottom: "3px", marginTop: "5px"}}>Description</h3></p>
+                <hr></hr>
+                {component.descriptions.map(description => <p style={{marginTop: "3px"}}>{description}</p>)}
               </Typography>
             </CardContent>
           </Card>)
