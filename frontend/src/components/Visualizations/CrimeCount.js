@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import ReactLoading from 'react-loading';
 
 const CrimeCount = ({data}) =>{
     const svgRef = useRef();
@@ -88,7 +89,10 @@ const CrimeCount = ({data}) =>{
 
     }, [data]);
     return(
-        <svg className='graphs' ref = {svgRef}></svg>
+        <div style={{display: "flex", justifyContent:"center"}}>
+            {data != null? <svg className='graphs' ref = {svgRef}></svg> : 
+            <ReactLoading className='graphs' color = {"grey"}  height={'200px'} width={"200px"}></ReactLoading>}
+        </div>
     )
 };
 

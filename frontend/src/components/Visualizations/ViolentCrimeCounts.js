@@ -6,6 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import ReactLoading from 'react-loading';
 
 
 const chicagoWardsNeighborhoods = {
@@ -216,8 +217,7 @@ const ViolentCrimeCounts = ({data}) =>{
             .attr("y", legendRectSize - legendSpacing)
                                 .text(d => d);
   
-        };
-
+        }
     }, [data, checkedItems, ward])
 
     const handleChange = (e) =>{
@@ -249,7 +249,10 @@ const ViolentCrimeCounts = ({data}) =>{
                     )}
                 </div>
             </div>
-            <svg  className='graphs' ref = {svgRef}></svg>
+            {data != null? 
+                <svg  className='graphs' ref = {svgRef}/>:
+                <ReactLoading className='graphs' color = {"grey"}  height={'200px'} width={"200px"}></ReactLoading>
+            }
             <div id="tooltip" style={{ position: "absolute", opacity: 0, backgroundColor: "white", padding: "10px", borderRadius: "5px", border: "1px solid black" }}></div>
         </div>
     )
