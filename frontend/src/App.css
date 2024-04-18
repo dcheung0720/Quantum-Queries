@@ -21,3 +21,8 @@ div.controls{
   border-radius: 10px;
   border: 4px solid black;
 }
+
+img.chicagoStars{
+  width: 20px;
+  height: 20px;
+}

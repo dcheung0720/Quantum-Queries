@@ -46,7 +46,7 @@ function App() {
   return (
     <div className="App">
         <Card style={{marginLeft: "20px", marginRight: "20px", height: "100px", backgroundColor: "#B3DDF2"}}>
-            <h1>Is Chicago Becoming More Violent?</h1>
+            <h1><img className = "chicagoStars" src = {"/chicagoStar.png"}/><img className = "chicagoStars" src = {"/chicagoStar.png"}/>Is Chicago Becoming More Violent? <img className = "chicagoStars" src = {"/chicagoStar.png"}/><img className = "chicagoStars" src = {"/chicagoStar.png"}/></h1>
         </Card>
         {vistList.map(component => 
           <Card style={{marginTop: "20px", marginLeft: "20px", marginRight: "20px", backgroundColor: "#B3DDF2"}}>

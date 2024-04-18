@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 const Navigation = () =>{
     return (
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="fixed" style={{backgroundColor: "B3DDF2"}}>
+          <AppBar position="fixed">
             <Toolbar variant="dense">
               <Typography variant="h5" color="inherit" component="div">
-                Chicago Crime Analysis
+                  <img className = "chicagoStars" src = {"/chicagoStar.png"}/> <img className = "chicagoStars" src = {"/chicagoStar.png"} />  Chicago Crime Analysis <img className = "chicagoStars" src = {"/chicagoStar.png"} /> <img className = "chicagoStars" src = {"/chicagoStar.png"} />
               </Typography>
             </Toolbar>
           </AppBar>
