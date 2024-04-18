@@ -7,33 +7,40 @@ import { useEffect, useState } from 'react';
 const Legend = () => {
     const map = useMap();
 
-    const legend = L.control({ position: "bottomright" });
+    useEffect(() => {
+        const legend = L.control({ position: "bottomright" });
 
-    legend.onAdd = () => {
-        const div = L.DomUtil.create("div", "info legend");
-        const grades = [0, 500, 1000, 1500, 2000, 2500];
-        const colors = ['#FFFF00', '#ecca00', '#ec9b00', '#ec5300', '#ec2400', '#ec0000'];
-        let labels = [];
-        let from;
-        let to;
+        legend.onAdd = () => {
+            const div = L.DomUtil.create("div", "info legend");
+            const grades = [0, 500, 1000, 1500, 2000, 2500];
+            const colors = ['#FFFF00', '#ecca00', '#ec9b00', '#ec5300', '#ec2400', '#ec0000'];
+            let labels = [];
+            let from;
+            let to;
 
-        for (let i = 0; i < grades.length; i++) {
-            from = grades[i];
-            to = grades[i + 1];
+            for (let i = 0; i < grades.length; i++) {
+                from = grades[i];
+                to = grades[i + 1];
 
-            labels.push(
-                '<div class="legend-item">' +
-                '<i style="background:' + colors[i] + '"></i> ' +
-                from + (to ? "&ndash;" + to : "+") +
-                '</div>'
-            );
-        }
+                labels.push(
+                    '<div class="legend-item">' +
+                    '<i style="background:' + colors[i] + '"></i> ' +
+                    from + (to ? "&ndash;" + to : "+") +
+                    '</div>'
+                );
+            }
 
-        div.innerHTML = labels.join("");
-        return div;
-    };
+            div.innerHTML = labels.join("");
+            return div;
+        };
 
-    legend.addTo(map);
+        legend.addTo(map);
+
+        return () => {
+            // Remove the legend when the component unmounts
+            legend.remove();
+        };
+    }, [map]);
 
     return null;
 };

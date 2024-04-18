@@ -26,3 +26,21 @@ img.chicagoStars{
   width: 20px;
   height: 20px;
 }
+
+.info.legend {
+  background: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.legend-item {
+  margin-bottom: 5px;
+}
+
+.legend-item i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+}
