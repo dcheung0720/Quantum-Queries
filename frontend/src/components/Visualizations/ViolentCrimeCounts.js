@@ -67,7 +67,7 @@ const ViolentCrimeCounts = ({data}) =>{
     const [ward, setWard] = useState('All');
 
     const svgRef = useRef();
-    const violentCrimes = ['BATTERY', 'ASSAULT', 'CRIM SEXUAL ASSAULT', 'ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE']
+    const violentCrimes = ['BATTERY', 'ASSAULT','ROBBERY', 'CRIMINAL SEXUAL ASSAULT', 'HOMICIDE']
     // checkbox states
     const [checkedItems, setCheckedItems] = useState(() => {
         return violentCrimes.reduce((acc, crimeType) => {
