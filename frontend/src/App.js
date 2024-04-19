@@ -63,7 +63,7 @@ function App() {
                           descriptions: ["Chicago has a very low clearance rate. Criminals are free to commit the crime again. They are aware that there are few consequences for their actions, they too will be emboldened. Year by year criminal activities are increasing and arrests are doping. ",]
                         },
                         {
-                          graphs: ["/Rachel/topCrimes.png","/Rachel/crimesPerSeason.png","/Rachel/springYearly.png", "/Rachel/summerYearly.png", "/Rachel/fallYearly.png]", "/Rachel/winterYearly.png", "/Rachel/topSpringCrimes.png", "/Rachel/topSummerCrimes.png", "/Rachel/topFallCrimes.png", "/Rachel/topWinterCrimes.png"],
+                          graphs: ["/Rachel/crimeTimeDistribution.png","/Rachel/topCrimes.png","/Rachel/crimesPerSeason.png","/Rachel/springYearly.png", "/Rachel/summerYearly.png", "/Rachel/fallYearly.png", "/Rachel/winterYearly.png", "/Rachel/topSpringCrimes.png", "/Rachel/topSummerCrimes.png", "/Rachel/topFallCrimes.png", "/Rachel/topWinterCrimes.png"],
                           title: `What about Crimes per Season?`,
                           icon: <TrendingUpIcon/>,
                           descriptions: ["Crime in Chicago tends to spike around noon, this is most likely due to the fact that theft is the most frequently occurring crime which often happens during the daytime.",]
