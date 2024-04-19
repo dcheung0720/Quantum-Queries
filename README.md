@@ -1,6 +1,5 @@
 # Chicago Crime Analysis
 <body>
-    <h1>Contributions: Made the first 3 visualizations in d3, hosted the website in Firebase, stored the data in Firebase, and combined everyone's work onto the website.</h1>
     <h2>Goal: To see whether Chicago is becoming more Violent from 2017 - 2023</h2>
     <h6>The visualizations can be seen in the following website: https://chicagocrimeanalysis-a24e2.web.app/</h6>
     <h6>The data source for our data was retrieved from: https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2</h6>
